@@ -5,9 +5,9 @@ class SecretsController < ApplicationController
   # GET /secrets.json
   def index
     if params[:category] == "all"
-      @secrets = Secret.all.reverse.take(100)
+      @secrets = Secret.all.order(:created_at).reverse.take(100)
     else
-      @secrets = Secret.all.where(category: params[:category]).reverse.take(100)
+      @secrets = Secret.all.where(category: params[:category]).order(:created_at).reverse.take(100)
     end
 
     @secrets.each do |e|
