@@ -4,10 +4,14 @@ class SecretsController < ApplicationController
   # GET /secrets
   # GET /secrets.json
   def index
+    offset = params[:offset].to_i
+
     if params[:category] == "all"
-      @secrets = Secret.all.order(:created_at).reverse.take(100)
+      @secrets = Secret.all.order(:created_at).reverse[offset..offset + 29]
+      @secrets_size = Secret.all.count
     else
-      @secrets = Secret.all.where(category: params[:category]).order(:created_at).reverse.take(100)
+      @secrets = Secret.all.where(category: params[:category]).order(:created_at).reverse[offset .. offset + 29]
+      @secrets_size = Secret.all.where(category: params[:category]).count
     end
 
     @secrets.each do |e|
